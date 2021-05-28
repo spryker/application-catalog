@@ -1,0 +1,38 @@
+[
+    {
+        "idCategory": "analytics",
+        "name": "BI Analytics"
+    },
+    {
+        "idCategory": "commerce",
+        "name": "Commerce",
+        "children": [
+            {
+                "idCategory": "payment",
+                "name": "Payment"
+            }
+        ]
+    },
+    {
+        "idCategory": "customer",
+        "name": "Kunde"
+    },
+    {
+        "idCategory": "data-integration",
+        "name": "Datenintegration"
+    },
+    {
+        "idCategory": "marketing",
+        "name": "Marketing",
+        "children": [
+            {
+                "idCategory": "seo",
+                "name": "SEO"
+            }
+        ]
+    },
+    {
+        "idCategory": "cloud",
+        "name": "Cloud Operations"
+    }
+]

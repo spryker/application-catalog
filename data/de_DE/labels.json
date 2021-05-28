@@ -1,0 +1,18 @@
+[
+    {
+        "idLabel": "new",
+        "name": "Neu"
+    },
+    {
+        "idLabel": "popular",
+        "name": "Beliebt"
+    },
+    {
+        "idLabel": "gold",
+        "name": "Gold Partner"
+    },
+    {
+        "idLabel": "silver",
+        "name": "Silber Partner"
+    }
+]

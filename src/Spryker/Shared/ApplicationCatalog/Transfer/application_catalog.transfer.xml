@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<transfers xmlns="spryker:transfer-01" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="spryker:transfer-01 http://static.spryker.com/transfer-01.xsd">
+
+    <transfer name="Application">
+        <property name="idApplication" type="string" strict="true"/>
+        <property name="providerName" type="string" strict="true"/>
+        <property name="name" type="string" description="Localized name, depends on requested locale"/>
+        <property name="iconUrl" type="string" strict="true"/>
+        <property name="categories" singular="category" type="ApplicationCategory[]" strict="true"/>
+        <property name="labels" singular="label" type="Label[]" strict="true"/>
+        <property name="description" type="string" strict="true"/>
+        <property name="url" type="string" strict="true" description="internal URL"/>
+        <property name="rating" type="float" strict="true"/>
+        <property name="totalReviews" type="int" strict="true"/>
+        <property name="overview" type="string" strict="true"/>
+        <property name="galleryItems" singular="galleryItem" type="GalleryItem[]" strict="true" description="images/videos with previews (small/full size)"/>
+        <property name="updatedAt" type="string" strict="true"/>
+        <property name="resources" singular="resource" type="ResourceItem[]" strict="true" description="Title, url"/>
+        <property name="connectionState" type="ConnectionState" strict="true"/>
+    </transfer>
+
+    <transfer name="ConnectionState" strict="true">
+        <property name="code" type="int"/>
+        <property name="description" type="string"/>
+    </transfer>
+
+    <transfer name="ApplicationCollection" strict="true">
+        <property name="applications" singular="application" type="Application[]"/>
+    </transfer>
+
+    <transfer name="ApplicationCategory" strict="true">
+        <property name="idCategory" type="string"/>
+        <property name="name" type="string" description="Localized name, depends on requested locale"/>
+        <property name="children" singular="child" type="ApplicationCategory[]"/>
+    </transfer>
+
+    <transfer name="ApplicationCategoryCollection" strict="true">
+        <property name="categories" singular="category" type="ApplicationCategory[]"/>
+    </transfer>
+
+    <transfer name="Label" strict="true">
+        <property name="idLabel" type="string"/>
+        <property name="name" type="string" description="Localized name, depends on requested locale"/>
+    </transfer>
+
+    <transfer name="LabelCollection" strict="true">
+        <property name="labels" singular="label" type="Label[]"/>
+    </transfer>
+
+    <transfer name="GalleryItem" strict="true">
+        <property name="type" type="string"/>
+        <property name="urlSmall" type="string"/>
+        <property name="urlLarge" type="string"/>
+    </transfer>
+
+    <transfer name="ResourceItem" strict="true">
+        <property name="title" type="string"/>
+        <property name="url" type="string"/>
+    </transfer>
+
+    <transfer name="ApplicationCriteria" strict="true">
+        <property name="idApplication" type="string"/>
+        <property name="searchTerm" type="string"/>
+        <property name="labelIds" singular="idLabel" type="array"/>
+        <property name="categoryIds" singular="idCategory" type="array"/>
+        <property name="locale" type="Locale"/>
+    </transfer>
+
+    <transfer name="ApplicationCategoryCriteria" strict="true">
+        <property name="idCategory" type="string"/>
+        <property name="locale" type="Locale"/>
+    </transfer>
+
+    <transfer name="LabelCriteria" strict="true">
+        <property name="idLabel" type="string"/>
+        <property name="locale" type="Locale"/>
+    </transfer>
+
+    <transfer name="Locale">
+        <property name="localeName" type="string"/>
+    </transfer>
+</transfers>
