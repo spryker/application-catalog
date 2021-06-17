@@ -10,9 +10,11 @@ namespace SprykerTest\Client\ApplicationCatalog;
 use Codeception\TestCase\Test;
 use Generated\Shared\Transfer\ApplicationCategoryCriteriaTransfer;
 use Generated\Shared\Transfer\ApplicationCriteriaTransfer;
-use Generated\Shared\Transfer\ApplicationTransfer;
 use Generated\Shared\Transfer\LabelCriteriaTransfer;
 use Generated\Shared\Transfer\LocaleTransfer;
+use GuzzleHttp\Psr7\Response;
+use Spryker\Client\ApplicationCatalog\ApplicationCatalogDependencyProvider;
+use Spryker\Client\ApplicationCatalog\Dependency\External\ApplicationCatalogToHttpClientAdapterInterface;
 
 /**
  * Auto-generated group annotations
@@ -35,82 +37,78 @@ class ApplicationCatalogClientTest extends Test
     protected $tester;
 
     /**
-     * @dataProvider searchTermDataProvider()
-     *
-     * @param int $expectedCount
-     * @param string|null $searchTerm
-     * @param array|null $categoryIds
-     * @param array|null $labelIds
-     *
+     * @var \Spryker\Client\ApplicationCatalog\Dependency\External\ApplicationCatalogToHttpClientAdapterInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $httpClient;
+
+    /**
      * @return void
      */
-    public function testGetApplicationCollectionShouldReturnCollectionTransfer(
-        int $expectedCount,
-        ?string $searchTerm,
-        ?array $categoryIds,
-        ?array $labelIds
-    ): void {
-        $applicationCatalogClient = $this->tester->getClient();
+    public function setUp(): void
+    {
+        parent::setUp();
 
-        $applicationCriteriaTransfer = (new ApplicationCriteriaTransfer())
-            ->setSearchTerm($searchTerm)
-            ->setCategoryIds($categoryIds)
-            ->setLabelIds($labelIds)
-            ->setLocale($this->getLocaleTransfer());
+        $this->httpClient = $this->createMock(ApplicationCatalogToHttpClientAdapterInterface::class);
+
+        $this->tester->setDependency(
+            ApplicationCatalogDependencyProvider::CLIENT_HTTP,
+            $this->httpClient
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetApplicationCollectionShouldReturnCollectionTransfer(): void
+    {
+        $response = $this->createMock(Response::class);
+        $response->method('getBody')->willReturn($this->getFixture('applications.json'));
+        $this->httpClient->method('request')->willReturn($response);
+
+        $applicationCatalogClient = $this->tester->getClient();
+        $applicationCriteriaTransfer = (new ApplicationCriteriaTransfer())->setLocale($this->getLocaleTransfer());
         $applicationCollectionTransfer = $applicationCatalogClient->getApplicationCollection($applicationCriteriaTransfer);
 
-        $applicationCount = $applicationCollectionTransfer->getApplications()->count();
-        $this->assertEquals($expectedCount, $applicationCount);
+        $this->assertInstanceOf('\Generated\Shared\Transfer\ApplicationCollectionTransfer', $applicationCollectionTransfer);
+        $this->assertGreaterThan(0, $applicationCollectionTransfer->getApplications()->count());
 
         foreach ($applicationCollectionTransfer->getApplications() as $applicationTransfer) {
-            $this->checkApplicationTransfer($applicationTransfer);
+            $this->assertInstanceOf('\Generated\Shared\Transfer\ApplicationTransfer', $applicationTransfer);
         }
     }
 
     /**
-     * @return array[]
-     */
-    public function searchTermDataProvider(): array
-    {
-        return [
-            'search by name with null' => [1, 'one', null, null],
-            'search by name with empty array' => [1, 'one', [], []],
-            'search by providerName and label' => [1, 'Payone', [], ['new']],
-            'search by category and providerName with register' => [1, 'payone', ['payment'], null],
-            'search by full criteria' => [1, 'device', ['commerce'], ['gold', 'test']],
-            'search not set' => [1, null, null, null],
-            'wrong searchTerm' => [0, 'qwer', null, null],
-            'wrong searchTerm with label and category' => [0, 'qwer', ['payment', 1], ['gold']],
-            'search by category and label' => [1, null, ['payment'], ['gold']],
-            'empty criteria' => [1, '', [], null],
-            'criteria with empty string' => [0, '', [''], ['']],
-        ];
-    }
-
-    /**
      * @return void
      */
-    public function testGetAppDetailsShouldReturnTransfer(): void
+    public function testFindApplicationShouldReturnTransfer(): void
     {
+        $response = $this->createMock(Response::class);
+        $response->method('getBody')->willReturn($this->getFixture('application.json'));
+        $this->httpClient->method('request')->willReturn($response);
+
         $applicationCatalogClient = $this->tester->getClient();
 
         $applicationCriteriaTransfer = (new ApplicationCriteriaTransfer())
-            ->setIdApplication('payment-provider-payone')
+            ->setApplicationUuid('payment-provider-payone')
             ->setLocale($this->getLocaleTransfer());
         $applicationTransfer = $applicationCatalogClient->findApplication($applicationCriteriaTransfer);
 
-        $this->checkApplicationTransfer($applicationTransfer);
+        $this->assertInstanceOf('\Generated\Shared\Transfer\ApplicationTransfer', $applicationTransfer);
     }
 
     /**
      * @return void
      */
-    public function testGetAppDetailsShouldReturnNull(): void
+    public function testFindApplicationShouldReturnNull(): void
     {
+        $response = $this->createMock(Response::class);
+        $response->method('getBody')->willReturn('');
+        $this->httpClient->method('request')->willReturn($response);
+
         $applicationCatalogClient = $this->tester->getClient();
 
         $applicationCriteriaTransfer = (new ApplicationCriteriaTransfer())
-            ->setIdApplication('test-unreal-app')
+            ->setApplicationUuid('test-unreal-app')
             ->setLocale($this->getLocaleTransfer());
         $applicationTransfer = $applicationCatalogClient->findApplication($applicationCriteriaTransfer);
 
@@ -120,63 +118,50 @@ class ApplicationCatalogClientTest extends Test
     /**
      * @return void
      */
-    public function testGetAppCategoriesShouldReturnCollectionTransfer(): void
+    public function testGetCategoryCollectionShouldReturnCollectionTransfer(): void
     {
+        $response = $this->createMock(Response::class);
+        $response->method('getBody')->willReturn($this->getFixture('categories.json'));
+        $this->httpClient->method('request')->willReturn($response);
+
         $applicationCatalogClient = $this->tester->getClient();
 
         $applicationCategoryTransfer = (new ApplicationCategoryCriteriaTransfer())->setLocale($this->getLocaleTransfer());
         $applicationCategoryCollectionTransfer = $applicationCatalogClient->getCategoryCollection($applicationCategoryTransfer);
+
+        $this->assertInstanceOf(
+            '\Generated\Shared\Transfer\ApplicationCategoryCollectionTransfer',
+            $applicationCategoryCollectionTransfer
+        );
+        $this->assertGreaterThan(0, $applicationCategoryCollectionTransfer->getCategories()->count());
+
         foreach ($applicationCategoryCollectionTransfer->getCategories() as $applicationCategoryTransfer) {
             $this->assertInstanceOf('\Generated\Shared\Transfer\ApplicationCategoryTransfer', $applicationCategoryTransfer);
-            $this->assertNotEmpty($applicationCategoryTransfer->getName());
         }
     }
 
     /**
      * @return void
      */
-    public function testGetLabelsShouldReturnCollectionTransfer(): void
+    public function testGetLabelCollectionShouldReturnCollectionTransfer(): void
     {
+        $response = $this->createMock(Response::class);
+        $response->method('getBody')->willReturn($this->getFixture('labels.json'));
+        $this->httpClient->method('request')->willReturn($response);
+
         $applicationCatalogClient = $this->tester->getClient();
 
         $labelCriteriaTransfer = (new LabelCriteriaTransfer())->setLocale($this->getLocaleTransfer());
         $labelCollectionTransfer = $applicationCatalogClient->getLabelCollection($labelCriteriaTransfer);
+
+        $this->assertInstanceOf(
+            '\Generated\Shared\Transfer\LabelCollectionTransfer',
+            $labelCollectionTransfer
+        );
+        $this->assertGreaterThan(0, $labelCollectionTransfer->getLabels()->count());
+
         foreach ($labelCollectionTransfer->getLabels() as $labelTransfer) {
             $this->assertInstanceOf('\Generated\Shared\Transfer\LabelTransfer', $labelTransfer);
-            $this->assertNotEmpty($labelTransfer->getName());
-        }
-    }
-
-    /**
-     * @param \Generated\Shared\Transfer\ApplicationTransfer $applicationTransfer
-     *
-     * @return void
-     */
-    protected function checkApplicationTransfer(ApplicationTransfer $applicationTransfer): void
-    {
-        $this->assertInstanceOf('\Generated\Shared\Transfer\ApplicationTransfer', $applicationTransfer);
-        $this->assertNotEmpty($applicationTransfer->getProviderName());
-        $this->assertNotEmpty($applicationTransfer->getName());
-        $this->assertNotEmpty($applicationTransfer->getIconUrl());
-        $this->assertNotEmpty($applicationTransfer->getDescription());
-        $this->assertNotEmpty($applicationTransfer->getUrl());
-        $this->assertNotEmpty($applicationTransfer->getRating());
-        $this->assertNotEmpty($applicationTransfer->getTotalReviews());
-
-        foreach ($applicationTransfer->getCategories() as $applicationCategoryTransfer) {
-            $this->assertInstanceOf('\Generated\Shared\Transfer\ApplicationCategoryTransfer', $applicationCategoryTransfer);
-        }
-
-        foreach ($applicationTransfer->getLabels() as $labelTransfer) {
-            $this->assertInstanceOf('\Generated\Shared\Transfer\LabelTransfer', $labelTransfer);
-        }
-
-        foreach ($applicationTransfer->getGalleryItems() as $galleryItemTransfer) {
-            $this->assertInstanceOf('\Generated\Shared\Transfer\GalleryItemTransfer', $galleryItemTransfer);
-        }
-
-        foreach ($applicationTransfer->getResources() as $resourceTransfer) {
-            $this->assertInstanceOf('\Generated\Shared\Transfer\ResourceItemTransfer', $resourceTransfer);
         }
     }
 
@@ -186,5 +171,15 @@ class ApplicationCatalogClientTest extends Test
     protected function getLocaleTransfer(): LocaleTransfer
     {
         return (new LocaleTransfer())->setLocaleName(static::LOCAL_NAME);
+    }
+
+    /**
+     * @param string $fileName
+     *
+     * @return string
+     */
+    protected function getFixture(string $fileName): string
+    {
+        return file_get_contents(codecept_data_dir('Fixtures/' . $fileName));
     }
 }

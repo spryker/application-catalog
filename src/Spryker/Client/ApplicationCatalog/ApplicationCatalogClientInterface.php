@@ -10,6 +10,8 @@ namespace Spryker\Client\ApplicationCatalog;
 use Generated\Shared\Transfer\ApplicationCategoryCollectionTransfer;
 use Generated\Shared\Transfer\ApplicationCategoryCriteriaTransfer;
 use Generated\Shared\Transfer\ApplicationCollectionTransfer;
+use Generated\Shared\Transfer\ApplicationConnectRequestTransfer;
+use Generated\Shared\Transfer\ApplicationConnectResponseTransfer;
 use Generated\Shared\Transfer\ApplicationCriteriaTransfer;
 use Generated\Shared\Transfer\ApplicationTransfer;
 use Generated\Shared\Transfer\LabelCollectionTransfer;
@@ -21,7 +23,7 @@ interface ApplicationCatalogClientInterface
      * Specification:
      * - Returns an application by provided identifier.
      * - Returns null if nothing found.
-     * - Requires ApplicationDetailsCriteria.identifier transfer field to be set.
+     * - Requires ApplicationDetailsCriteria.applicationUuid transfer field to be set.
      *
      * @api
      *
@@ -74,4 +76,17 @@ interface ApplicationCatalogClientInterface
     public function getLabelCollection(
         LabelCriteriaTransfer $labelCriteriaTransfer
     ): LabelCollectionTransfer;
+
+    /**
+     * Specification:
+     * - Connects application
+     * - Requires ApplicationDetailsCriteria.applicationUuid transfer field to be set.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\ApplicationConnectRequestTransfer $applicationConnectRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\ApplicationConnectResponseTransfer
+     */
+    public function connectApplication(ApplicationConnectRequestTransfer $applicationConnectRequestTransfer): ApplicationConnectResponseTransfer;
 }

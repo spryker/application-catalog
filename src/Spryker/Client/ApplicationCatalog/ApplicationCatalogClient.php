@@ -10,6 +10,8 @@ namespace Spryker\Client\ApplicationCatalog;
 use Generated\Shared\Transfer\ApplicationCategoryCollectionTransfer;
 use Generated\Shared\Transfer\ApplicationCategoryCriteriaTransfer;
 use Generated\Shared\Transfer\ApplicationCollectionTransfer;
+use Generated\Shared\Transfer\ApplicationConnectRequestTransfer;
+use Generated\Shared\Transfer\ApplicationConnectResponseTransfer;
 use Generated\Shared\Transfer\ApplicationCriteriaTransfer;
 use Generated\Shared\Transfer\ApplicationTransfer;
 use Generated\Shared\Transfer\LabelCollectionTransfer;
@@ -87,5 +89,21 @@ class ApplicationCatalogClient extends AbstractClient implements ApplicationCata
         return $this->getFactory()
             ->createApplicationCatalogRepository()
             ->getLabelCollection($labelCriteriaTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\ApplicationConnectRequestTransfer $applicationConnectRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\ApplicationConnectResponseTransfer
+     */
+    public function connectApplication(ApplicationConnectRequestTransfer $applicationConnectRequestTransfer): ApplicationConnectResponseTransfer
+    {
+        return $this->getFactory()
+            ->createApplicationCatalogRepository()
+            ->connectApplication($applicationConnectRequestTransfer);
     }
 }

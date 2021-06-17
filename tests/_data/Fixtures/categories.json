@@ -1,25 +1,25 @@
 [
     {
         "idCategory": "analytics",
-        "name": "BI Analytics"
+        "title": "BI Analytics"
     },
     {
         "idCategory": "commerce",
-        "name": "Commerce",
+        "title": "Commerce",
         "children": [
             {
                 "idCategory": "payment",
-                "name": "Payment"
+                "title": "Payment"
             }
         ]
     },
     {
         "idCategory": "customer",
-        "name": "Kunde"
+        "title": "Customer"
     },
     {
         "idCategory": "data-integration",
-        "name": "Datenintegration"
+        "title": "Data Integration"
     },
     {
         "idCategory": "marketing",
@@ -27,12 +27,12 @@
         "children": [
             {
                 "idCategory": "seo",
-                "name": "SEO"
+                "title": "SEO"
             }
         ]
     },
     {
         "idCategory": "cloud",
-        "name": "Cloud Operations"
+        "title": "Cloud Operations"
     }
 ]

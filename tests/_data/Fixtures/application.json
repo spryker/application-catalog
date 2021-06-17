@@ -1,0 +1,58 @@
+{
+    "applicationUuid": "payment-provider-payone",
+    "providerName": "Payone",
+    "name": "Payone",
+    "iconUrl": "img",
+    "categories": [
+        {
+            "idCategory": "payment",
+            "title": "Payment"
+        },
+        {
+            "idCategory": "commerce",
+            "title": "Commerce"
+        }
+    ],
+    "labels": [
+        {
+            "idLabel": "new",
+            "title": "New"
+        },
+        {
+            "idLabel": "gold",
+            "title": "Gold Partner"
+        }
+    ],
+    "description": "A single payment platform to accept payments anywhere on any device.",
+    "url": "https://www.payone.com",
+    "rating": 4.5,
+    "totalReviews": 36,
+    "overview": "<p>Long HTML with app description</p>",
+    "galleryItems": [
+        {
+            "type": "image",
+            "urlSmall": "https://static.images.com/12345-small.png",
+            "urlLarge": "http://images.icecat.biz/img/norm/medium/15743_12554247-9579.jpg"
+        },
+        {
+            "type": "image",
+            "urlSmall": "https://static.images.com/123456-small.png",
+            "urlLarge": "http://images.icecat.biz/img/norm/medium/15743_12554247-9579.jpg"
+        }
+    ],
+    "updatedAt": "2021-07-15",
+    "resources": [
+        {
+            "title": "User Manual",
+            "url": "https://domain.com/guide.pdf"
+        },
+        {
+            "title": "Usage Policy",
+            "url": "https://domain.com/polisy.pdf"
+        }
+    ],
+    "connectionState": {
+        "code": 0,
+        "description": "not connected"
+    }
+}

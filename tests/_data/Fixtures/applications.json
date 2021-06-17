@@ -1,0 +1,36 @@
+[
+    {
+        "applicationUuid": "payment-provider-payone",
+        "providerName": "Payone",
+        "name": "Payone",
+        "iconUrl": "img",
+        ",categories": [
+            {
+                "idCategory": "payment",
+                "title": "Payment"
+            },
+            {
+                "idCategory": "commerce",
+                "title": "Commerce"
+            }
+        ],
+        "labels": [
+            {
+                "idLabel": "new",
+                "title": "New"
+            },
+            {
+                "idLabel": "gold",
+                "title": "Gold Partner"
+            }
+        ],
+        "description": "A single payment platform to accept payments anywhere on any device.",
+        "url": "https://www.payone.com",
+        "rating": 4.5,
+        "totalReviews": 36,
+        "connectionState": {
+            "code": 0,
+            "description": "not connected"
+        }
+    }
+]

@@ -1,18 +1,18 @@
 [
     {
         "idLabel": "new",
-        "name": "New"
+        "title": "New"
     },
     {
         "idLabel": "popular",
-        "name": "Popular"
+        "title": "Popular"
     },
     {
         "idLabel": "gold",
-        "name": "Gold Partner"
+        "title": "Gold Partner"
     },
     {
         "idLabel": "silver",
-        "name": "Silver Partner"
+        "title": "Silver Partner"
     }
 ]
