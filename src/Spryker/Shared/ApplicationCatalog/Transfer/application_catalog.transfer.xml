@@ -1,6 +1,20 @@
 <?xml version="1.0"?>
 <transfers xmlns="spryker:transfer-01" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="spryker:transfer-01 http://static.spryker.com/transfer-01.xsd">
 
+    <transfer name="AdvertisementBanner" strict="true">
+        <property name="applicationUuid" type="string"/>
+        <property name="imageUrl" type="string"/>
+        <property name="targetUrl" type="string"/>
+        <property name="type" type="string"/>
+    </transfer>
+
+    <transfer name="AdvertisementBannerCollection" strict="true">
+        <property name="advertisementBanners" singular="advertisementBanner" type="AdvertisementBanner[]"/>
+    </transfer>
+
+    <transfer name="AdvertisementBannerCriteria" strict="true">
+    </transfer>
+
     <transfer name="Application">
         <property name="applicationUuid" type="string" strict="true"/>
         <property name="providerName" type="string" strict="true"/>
@@ -19,9 +33,23 @@
         <property name="connectionState" type="ConnectionState" strict="true"/>
     </transfer>
 
-    <transfer name="ConnectionState" strict="true">
-        <property name="code" type="string"/>
-        <property name="description" type="string"/>
+    <transfer name="ApplicationCategory" strict="true">
+        <property name="idCategory" type="string"/>
+        <property name="title" type="string" description="Localized title, depends on locale"/>
+        <property name="children" singular="child" type="ApplicationCategory[]"/>
+    </transfer>
+
+    <transfer name="ApplicationCategoryCollection" strict="true">
+        <property name="categories" singular="category" type="ApplicationCategory[]"/>
+    </transfer>
+
+    <transfer name="ApplicationCategoryCriteria" strict="true">
+        <property name="idCategory" type="string"/>
+        <property name="locale" type="Locale"/>
+    </transfer>
+
+    <transfer name="ApplicationCollection" strict="true">
+        <property name="applications" singular="application" type="Application[]"/>
     </transfer>
 
     <transfer name="ApplicationConnectRequest" strict="true">
@@ -32,18 +60,23 @@
         <property name="isConnected" type="bool"/>
     </transfer>
 
-    <transfer name="ApplicationCollection" strict="true">
-        <property name="applications" singular="application" type="Application[]"/>
+    <transfer name="ApplicationCriteria" strict="true">
+        <property name="applicationUuid" type="string"/>
+        <property name="searchTerm" type="string"/>
+        <property name="labelIds" singular="idLabel" type="array"/>
+        <property name="categoryIds" singular="idCategory" type="array"/>
+        <property name="locale" type="Locale"/>
     </transfer>
 
-    <transfer name="ApplicationCategory" strict="true">
-        <property name="idCategory" type="string"/>
-        <property name="title" type="string" description="Localized title, depends on locale"/>
-        <property name="children" singular="child" type="ApplicationCategory[]"/>
+    <transfer name="ConnectionState" strict="true">
+        <property name="code" type="string"/>
+        <property name="description" type="string"/>
     </transfer>
 
-    <transfer name="ApplicationCategoryCollection" strict="true">
-        <property name="categories" singular="category" type="ApplicationCategory[]"/>
+    <transfer name="GalleryItem" strict="true">
+        <property name="type" type="string"/>
+        <property name="urlSmall" type="string"/>
+        <property name="urlLarge" type="string"/>
     </transfer>
 
     <transfer name="Label" strict="true">
@@ -55,30 +88,6 @@
         <property name="labels" singular="label" type="Label[]"/>
     </transfer>
 
-    <transfer name="GalleryItem" strict="true">
-        <property name="type" type="string"/>
-        <property name="urlSmall" type="string"/>
-        <property name="urlLarge" type="string"/>
-    </transfer>
-
-    <transfer name="ResourceItem" strict="true">
-        <property name="title" type="string"/>
-        <property name="url" type="string"/>
-    </transfer>
-
-    <transfer name="ApplicationCriteria" strict="true">
-        <property name="applicationUuid" type="string"/>
-        <property name="searchTerm" type="string"/>
-        <property name="labelIds" singular="idLabel" type="array"/>
-        <property name="categoryIds" singular="idCategory" type="array"/>
-        <property name="locale" type="Locale"/>
-    </transfer>
-
-    <transfer name="ApplicationCategoryCriteria" strict="true">
-        <property name="idCategory" type="string"/>
-        <property name="locale" type="Locale"/>
-    </transfer>
-
     <transfer name="LabelCriteria" strict="true">
         <property name="idLabel" type="string"/>
         <property name="locale" type="Locale"/>
@@ -87,4 +96,10 @@
     <transfer name="Locale">
         <property name="localeName" type="string"/>
     </transfer>
+
+    <transfer name="ResourceItem" strict="true">
+        <property name="title" type="string"/>
+        <property name="url" type="string"/>
+    </transfer>
+
 </transfers>

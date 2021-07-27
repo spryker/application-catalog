@@ -4,7 +4,7 @@
         "providerName": "Payone",
         "name": "Payone",
         "iconUrl": "img",
-        ",categories": [
+        "categories": [
             {
                 "idCategory": "payment",
                 "title": "Payment"

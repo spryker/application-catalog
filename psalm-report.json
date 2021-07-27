@@ -1,0 +1,58 @@
+{
+    "error": [],
+    "warning": [
+        {
+            "severity": "info",
+            "line_from": 96,
+            "line_to": 96,
+            "type": "PossiblyNullOperand",
+            "message": "Cannot concatenate with a possibly null null|string",
+            "file_name": "vendor/spryker/spryker/Bundles/ApplicationCatalog/src/Spryker/Client/ApplicationCatalog/DataSource/HttpApplicationCatalogRepository.php",
+            "snippet": "        $applicationData = $this->getDataFromSource('application/' . $applicationCriteriaTransfer->getApplicationUuid(), [",
+            "selected_text": "$applicationCriteriaTransfer->getApplicationUuid()",
+            "error_level": 1,
+            "shortcode": 80,
+            "other_references": null
+        },
+        {
+            "severity": "info",
+            "line_from": 175,
+            "line_to": 175,
+            "type": "PossiblyNullOperand",
+            "message": "Cannot concatenate with a possibly null null|string",
+            "file_name": "vendor/spryker/spryker/Bundles/ApplicationCatalog/src/Spryker/Client/ApplicationCatalog/DataSource/HttpApplicationCatalogRepository.php",
+            "snippet": "        $connectionData = $this->getDataFromSource('connect/' . $applicationConnectRequestTransfer->getApplicationUuid(), []);",
+            "selected_text": "$applicationConnectRequestTransfer->getApplicationUuid()",
+            "error_level": 1,
+            "shortcode": 80,
+            "other_references": null
+        },
+        {
+            "severity": "info",
+            "line_from": 202,
+            "line_to": 202,
+            "type": "NullableReturnStatement",
+            "message": "The declared return type 'array<array-key, mixed>' for Spryker\\Client\\ApplicationCatalog\\DataSource\\HttpApplicationCatalogRepository::getDataFromSource is not nullable, but the function returns 'mixed|null'",
+            "file_name": "vendor/spryker/spryker/Bundles/ApplicationCatalog/src/Spryker/Client/ApplicationCatalog/DataSource/HttpApplicationCatalogRepository.php",
+            "snippet": "        return $this->utilEncodingService->decodeJson($data, true);",
+            "selected_text": "$this->utilEncodingService->decodeJson($data, true)",
+            "error_level": 5,
+            "shortcode": 139,
+            "other_references": null
+        },
+        {
+            "severity": "info",
+            "line_from": 46,
+            "line_to": 46,
+            "type": "InvalidScalarArgument",
+            "message": "Argument 2 of Spryker\\Client\\ApplicationCatalog\\Http\\Exception\\ApplicationCatalogHttpRequestException::__construct expects int, int|string provided",
+            "file_name": "vendor/spryker/spryker/Bundles/ApplicationCatalog/src/Spryker/Client/ApplicationCatalog/Dependency/External/ApplicationCatalogToGuzzleHttpClientAdapter.php",
+            "snippet": "                $exception->getCode(),",
+            "selected_text": "$exception->getCode()",
+            "error_level": 4,
+            "shortcode": 12,
+            "other_references": null
+        }
+    ],
+    "deprecation": []
+}

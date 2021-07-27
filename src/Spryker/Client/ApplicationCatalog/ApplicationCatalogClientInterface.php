@@ -7,6 +7,8 @@
 
 namespace Spryker\Client\ApplicationCatalog;
 
+use Generated\Shared\Transfer\AdvertisementBannerCollectionTransfer;
+use Generated\Shared\Transfer\AdvertisementBannerCriteriaTransfer;
 use Generated\Shared\Transfer\ApplicationCategoryCollectionTransfer;
 use Generated\Shared\Transfer\ApplicationCategoryCriteriaTransfer;
 use Generated\Shared\Transfer\ApplicationCollectionTransfer;
@@ -76,6 +78,20 @@ interface ApplicationCatalogClientInterface
     public function getLabelCollection(
         LabelCriteriaTransfer $labelCriteriaTransfer
     ): LabelCollectionTransfer;
+
+    /**
+     * Specification:
+     * - Returns a collection of advertisement banners by provided criteria.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\AdvertisementBannerCriteriaTransfer $advertisementBannerCriteriaTransfer
+     *
+     * @return \Generated\Shared\Transfer\AdvertisementBannerCollectionTransfer
+     */
+    public function getAdvertisementBannerCollection(
+        AdvertisementBannerCriteriaTransfer $advertisementBannerCriteriaTransfer
+    ): AdvertisementBannerCollectionTransfer;
 
     /**
      * Specification:

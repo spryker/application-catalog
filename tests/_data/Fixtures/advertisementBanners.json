@@ -1,0 +1,12 @@
+[
+    {
+        "applicationUuid": "payment-payone",
+        "imageUrl": "http://0.0.0.0:8080/app-store/image/payone_promo_banner.png",
+        "type": "application"
+    },
+    {
+        "applicationUuid": "payment-adyen",
+        "imageUrl": "http://0.0.0.0:8080/app-store/image/adyen_promo_banner.png",
+        "type": "application"
+    }
+]

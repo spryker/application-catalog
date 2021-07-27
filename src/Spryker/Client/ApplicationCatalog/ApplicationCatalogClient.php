@@ -7,6 +7,8 @@
 
 namespace Spryker\Client\ApplicationCatalog;
 
+use Generated\Shared\Transfer\AdvertisementBannerCollectionTransfer;
+use Generated\Shared\Transfer\AdvertisementBannerCriteriaTransfer;
 use Generated\Shared\Transfer\ApplicationCategoryCollectionTransfer;
 use Generated\Shared\Transfer\ApplicationCategoryCriteriaTransfer;
 use Generated\Shared\Transfer\ApplicationCollectionTransfer;
@@ -89,6 +91,23 @@ class ApplicationCatalogClient extends AbstractClient implements ApplicationCata
         return $this->getFactory()
             ->createApplicationCatalogRepository()
             ->getLabelCollection($labelCriteriaTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\AdvertisementBannerCriteriaTransfer $advertisementBannerCriteriaTransfer
+     *
+     * @return \Generated\Shared\Transfer\AdvertisementBannerCollectionTransfer
+     */
+    public function getAdvertisementBannerCollection(
+        AdvertisementBannerCriteriaTransfer $advertisementBannerCriteriaTransfer
+    ): AdvertisementBannerCollectionTransfer {
+        return $this->getFactory()
+            ->createApplicationCatalogRepository()
+            ->getAdvertisementBannerCollection();
     }
 
     /**

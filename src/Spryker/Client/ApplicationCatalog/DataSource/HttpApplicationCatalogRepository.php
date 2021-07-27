@@ -7,6 +7,8 @@
 
 namespace Spryker\Client\ApplicationCatalog\DataSource;
 
+use Generated\Shared\Transfer\AdvertisementBannerCollectionTransfer;
+use Generated\Shared\Transfer\AdvertisementBannerTransfer;
 use Generated\Shared\Transfer\ApplicationCategoryCollectionTransfer;
 use Generated\Shared\Transfer\ApplicationCategoryCriteriaTransfer;
 use Generated\Shared\Transfer\ApplicationCategoryTransfer;
@@ -144,6 +146,22 @@ class HttpApplicationCatalogRepository implements ApplicationCatalogRepositoryIn
     }
 
     /**
+     * @return \Generated\Shared\Transfer\AdvertisementBannerCollectionTransfer
+     */
+    public function getAdvertisementBannerCollection(): AdvertisementBannerCollectionTransfer
+    {
+        $advertisementBannersData = $this->getDataFromSource('banners');
+
+        $advertisementBannerCollectionTransfer = new AdvertisementBannerCollectionTransfer();
+        foreach ($advertisementBannersData as $advertisementBannerData) {
+            $advertisementBannerTransfer = (new AdvertisementBannerTransfer())->fromArray($advertisementBannerData, true);
+            $advertisementBannerCollectionTransfer->addAdvertisementBanner($advertisementBannerTransfer);
+        }
+
+        return $advertisementBannerCollectionTransfer;
+    }
+
+    /**
      * @param \Generated\Shared\Transfer\ApplicationConnectRequestTransfer $applicationConnectRequestTransfer
      *
      * @return \Generated\Shared\Transfer\ApplicationConnectResponseTransfer
@@ -162,7 +180,7 @@ class HttpApplicationCatalogRepository implements ApplicationCatalogRepositoryIn
      *
      * @return mixed[]
      */
-    protected function getDataFromSource(string $endpoint, array $params): array
+    protected function getDataFromSource(string $endpoint, array $params = []): array
     {
         try {
             $url = Url::generate($this->applicationCatalogConfig->getDataSourceUrl() . $endpoint, $params)->build();

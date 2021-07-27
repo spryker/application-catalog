@@ -8,13 +8,23 @@
 namespace SprykerTest\Client\ApplicationCatalog;
 
 use Codeception\TestCase\Test;
+use Generated\Shared\Transfer\AdvertisementBannerCollectionTransfer;
+use Generated\Shared\Transfer\AdvertisementBannerCriteriaTransfer;
+use Generated\Shared\Transfer\ApplicationCategoryCollectionTransfer;
 use Generated\Shared\Transfer\ApplicationCategoryCriteriaTransfer;
+use Generated\Shared\Transfer\ApplicationCollectionTransfer;
+use Generated\Shared\Transfer\ApplicationConnectResponseTransfer;
+use Generated\Shared\Transfer\ApplicationConnectRequestTransfer;
 use Generated\Shared\Transfer\ApplicationCriteriaTransfer;
+use Generated\Shared\Transfer\ApplicationTransfer;
+use Generated\Shared\Transfer\LabelCollectionTransfer;
 use Generated\Shared\Transfer\LabelCriteriaTransfer;
+use Generated\Shared\Transfer\LabelTransfer;
 use Generated\Shared\Transfer\LocaleTransfer;
 use GuzzleHttp\Psr7\Response;
 use Spryker\Client\ApplicationCatalog\ApplicationCatalogDependencyProvider;
 use Spryker\Client\ApplicationCatalog\Dependency\External\ApplicationCatalogToHttpClientAdapterInterface;
+use Spryker\Client\ApplicationCatalog\Http\Exception\ApplicationCatalogHttpRequestException;
 
 /**
  * Auto-generated group annotations
@@ -61,20 +71,17 @@ class ApplicationCatalogClientTest extends Test
      */
     public function testGetApplicationCollectionShouldReturnCollectionTransfer(): void
     {
+        // Arrange
         $response = $this->createMock(Response::class);
         $response->method('getBody')->willReturn($this->getFixture('applications.json'));
         $this->httpClient->method('request')->willReturn($response);
-
-        $applicationCatalogClient = $this->tester->getClient();
         $applicationCriteriaTransfer = (new ApplicationCriteriaTransfer())->setLocale($this->getLocaleTransfer());
-        $applicationCollectionTransfer = $applicationCatalogClient->getApplicationCollection($applicationCriteriaTransfer);
 
-        $this->assertInstanceOf('\Generated\Shared\Transfer\ApplicationCollectionTransfer', $applicationCollectionTransfer);
+        // Act
+        $applicationCollectionTransfer = $this->tester->getClient()->getApplicationCollection($applicationCriteriaTransfer);
+
+        // Assert
         $this->assertGreaterThan(0, $applicationCollectionTransfer->getApplications()->count());
-
-        foreach ($applicationCollectionTransfer->getApplications() as $applicationTransfer) {
-            $this->assertInstanceOf('\Generated\Shared\Transfer\ApplicationTransfer', $applicationTransfer);
-        }
     }
 
     /**
@@ -82,18 +89,19 @@ class ApplicationCatalogClientTest extends Test
      */
     public function testFindApplicationShouldReturnTransfer(): void
     {
+        // Arrange
         $response = $this->createMock(Response::class);
         $response->method('getBody')->willReturn($this->getFixture('application.json'));
         $this->httpClient->method('request')->willReturn($response);
-
-        $applicationCatalogClient = $this->tester->getClient();
-
         $applicationCriteriaTransfer = (new ApplicationCriteriaTransfer())
             ->setApplicationUuid('payment-provider-payone')
             ->setLocale($this->getLocaleTransfer());
-        $applicationTransfer = $applicationCatalogClient->findApplication($applicationCriteriaTransfer);
 
-        $this->assertInstanceOf('\Generated\Shared\Transfer\ApplicationTransfer', $applicationTransfer);
+        // Act
+        $applicationTransfer = $this->tester->getClient()->findApplication($applicationCriteriaTransfer);
+
+        // Assert
+        $this->assertInstanceOf(ApplicationTransfer::class, $applicationTransfer);
     }
 
     /**
@@ -101,17 +109,18 @@ class ApplicationCatalogClientTest extends Test
      */
     public function testFindApplicationShouldReturnNull(): void
     {
+        // Arrange
         $response = $this->createMock(Response::class);
         $response->method('getBody')->willReturn('');
         $this->httpClient->method('request')->willReturn($response);
-
-        $applicationCatalogClient = $this->tester->getClient();
-
         $applicationCriteriaTransfer = (new ApplicationCriteriaTransfer())
             ->setApplicationUuid('test-unreal-app')
             ->setLocale($this->getLocaleTransfer());
-        $applicationTransfer = $applicationCatalogClient->findApplication($applicationCriteriaTransfer);
 
+        // Act
+        $applicationTransfer = $this->tester->getClient()->findApplication($applicationCriteriaTransfer);
+
+        // Assert
         $this->assertNull($applicationTransfer);
     }
 
@@ -120,24 +129,19 @@ class ApplicationCatalogClientTest extends Test
      */
     public function testGetCategoryCollectionShouldReturnCollectionTransfer(): void
     {
+        // Arrange
         $response = $this->createMock(Response::class);
         $response->method('getBody')->willReturn($this->getFixture('categories.json'));
         $this->httpClient->method('request')->willReturn($response);
-
-        $applicationCatalogClient = $this->tester->getClient();
-
         $applicationCategoryTransfer = (new ApplicationCategoryCriteriaTransfer())->setLocale($this->getLocaleTransfer());
-        $applicationCategoryCollectionTransfer = $applicationCatalogClient->getCategoryCollection($applicationCategoryTransfer);
 
-        $this->assertInstanceOf(
-            '\Generated\Shared\Transfer\ApplicationCategoryCollectionTransfer',
-            $applicationCategoryCollectionTransfer
-        );
+        // Act
+        $applicationCategoryCollectionTransfer = $this->tester
+            ->getClient()
+            ->getCategoryCollection($applicationCategoryTransfer);
+
+        // Assert
         $this->assertGreaterThan(0, $applicationCategoryCollectionTransfer->getCategories()->count());
-
-        foreach ($applicationCategoryCollectionTransfer->getCategories() as $applicationCategoryTransfer) {
-            $this->assertInstanceOf('\Generated\Shared\Transfer\ApplicationCategoryTransfer', $applicationCategoryTransfer);
-        }
     }
 
     /**
@@ -145,24 +149,108 @@ class ApplicationCatalogClientTest extends Test
      */
     public function testGetLabelCollectionShouldReturnCollectionTransfer(): void
     {
+        // Arrange
         $response = $this->createMock(Response::class);
         $response->method('getBody')->willReturn($this->getFixture('labels.json'));
         $this->httpClient->method('request')->willReturn($response);
-
-        $applicationCatalogClient = $this->tester->getClient();
-
         $labelCriteriaTransfer = (new LabelCriteriaTransfer())->setLocale($this->getLocaleTransfer());
-        $labelCollectionTransfer = $applicationCatalogClient->getLabelCollection($labelCriteriaTransfer);
 
-        $this->assertInstanceOf(
-            '\Generated\Shared\Transfer\LabelCollectionTransfer',
-            $labelCollectionTransfer
-        );
+        // Act
+        $labelCollectionTransfer = $this->tester->getClient()->getLabelCollection($labelCriteriaTransfer);
+
+        // Assert
         $this->assertGreaterThan(0, $labelCollectionTransfer->getLabels()->count());
+    }
 
-        foreach ($labelCollectionTransfer->getLabels() as $labelTransfer) {
-            $this->assertInstanceOf('\Generated\Shared\Transfer\LabelTransfer', $labelTransfer);
-        }
+    /**
+     * @return void
+     */
+    public function testGetAdvertisementBannerCollectionShouldReturnAdvertisementBannerCollectionTransfer(): void
+    {
+        // Arrange
+        $response = $this->createMock(Response::class);
+        $response->method('getBody')->willReturn($this->getFixture('advertisementBanners.json'));
+        $this->httpClient->method('request')->willReturn($response);
+        $advertisementBannerCriteriaTransfer = new AdvertisementBannerCriteriaTransfer();
+
+        // Act
+        $advertisementBannerCollectionTransfer = $this->tester->getClient()
+            ->getAdvertisementBannerCollection($advertisementBannerCriteriaTransfer);
+
+        // Assert
+        $this->assertGreaterThan(0, $advertisementBannerCollectionTransfer->getAdvertisementBanners()->count());
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetAdvertisementBannerCollectionReturnsAnEmptyAdvertisementBannerCollectionWhenCriteriaNotMatchesAnyBanner(): void
+    {
+        // Arrange
+        $advertisementBannerCriteriaTransfer = new AdvertisementBannerCriteriaTransfer();
+
+        // Act
+        $advertisementBannerCollectionTransfer = $this->tester
+            ->getClient()
+            ->getAdvertisementBannerCollection($advertisementBannerCriteriaTransfer);
+
+        // Assert
+        $this->assertEquals(0, $advertisementBannerCollectionTransfer->getAdvertisementBanners()->count());
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetAdvertisementBannerCollectionReturnsAnEmptyAdvertisementBannerCollectionWhenHttpClientExceptionIsThrown(): void
+    {
+        // Arrange
+        $this->httpClient->method('request')->willThrowException(new ApplicationCatalogHttpRequestException());
+        $advertisementBannerCriteriaTransfer = new AdvertisementBannerCriteriaTransfer();
+
+        // Act
+        $advertisementBannerCollectionTransfer = $this->tester
+            ->getClient()
+            ->getAdvertisementBannerCollection($advertisementBannerCriteriaTransfer);
+
+        // Assert
+        $this->assertEquals(0, $advertisementBannerCollectionTransfer->getAdvertisementBanners()->count());
+    }
+
+    /**
+     * @return void
+     */
+    public function testConnectApplicationShouldReturnApplicationConnectResponseTransferWithTrueConnectedStatus(): void
+    {
+        // Arrange
+        $response = $this->createMock(Response::class);
+        $response->method('getBody')->willReturn($this->getFixture('connect.json'));
+        $this->httpClient->method('request')->willReturn($response);
+        $applicationConnectRequestTransfer = new ApplicationConnectRequestTransfer();
+
+        // Act
+        $applicationConnectResponseTransfer = $this->tester
+            ->getClient()
+            ->connectApplication($applicationConnectRequestTransfer);
+
+        // Assert
+        $this->assertEquals(true, $applicationConnectResponseTransfer->getIsConnected());
+    }
+
+    /**
+     * @return void
+     */
+    public function testConnectApplicationShouldReturnApplicationConnectResponseTransferWithFalseConnectedStatus(): void
+    {
+        // Arrange
+        $applicationConnectRequestTransfer = new ApplicationConnectRequestTransfer();
+
+        // Act
+        $applicationConnectResponseTransfer = $this->tester
+            ->getClient()
+            ->connectApplication($applicationConnectRequestTransfer);
+
+        // Assert
+        $this->assertEquals(false, $applicationConnectResponseTransfer->getIsConnected());
     }
 
     /**

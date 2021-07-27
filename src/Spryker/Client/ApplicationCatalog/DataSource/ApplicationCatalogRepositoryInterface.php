@@ -7,6 +7,7 @@
 
 namespace Spryker\Client\ApplicationCatalog\DataSource;
 
+use Generated\Shared\Transfer\AdvertisementBannerCollectionTransfer;
 use Generated\Shared\Transfer\ApplicationCategoryCollectionTransfer;
 use Generated\Shared\Transfer\ApplicationCategoryCriteriaTransfer;
 use Generated\Shared\Transfer\ApplicationCollectionTransfer;
@@ -54,6 +55,11 @@ interface ApplicationCatalogRepositoryInterface
     public function getLabelCollection(
         LabelCriteriaTransfer $labelCriteriaTransfer
     ): LabelCollectionTransfer;
+
+    /**
+     * @return \Generated\Shared\Transfer\AdvertisementBannerCollectionTransfer
+     */
+    public function getAdvertisementBannerCollection(): AdvertisementBannerCollectionTransfer;
 
     /**
      * @param \Generated\Shared\Transfer\ApplicationConnectRequestTransfer $applicationConnectRequestTransfer
