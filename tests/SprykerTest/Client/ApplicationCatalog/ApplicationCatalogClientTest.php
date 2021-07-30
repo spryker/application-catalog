@@ -8,18 +8,12 @@
 namespace SprykerTest\Client\ApplicationCatalog;
 
 use Codeception\TestCase\Test;
-use Generated\Shared\Transfer\AdvertisementBannerCollectionTransfer;
 use Generated\Shared\Transfer\AdvertisementBannerCriteriaTransfer;
-use Generated\Shared\Transfer\ApplicationCategoryCollectionTransfer;
 use Generated\Shared\Transfer\ApplicationCategoryCriteriaTransfer;
-use Generated\Shared\Transfer\ApplicationCollectionTransfer;
-use Generated\Shared\Transfer\ApplicationConnectResponseTransfer;
 use Generated\Shared\Transfer\ApplicationConnectRequestTransfer;
 use Generated\Shared\Transfer\ApplicationCriteriaTransfer;
 use Generated\Shared\Transfer\ApplicationTransfer;
-use Generated\Shared\Transfer\LabelCollectionTransfer;
 use Generated\Shared\Transfer\LabelCriteriaTransfer;
-use Generated\Shared\Transfer\LabelTransfer;
 use Generated\Shared\Transfer\LocaleTransfer;
 use GuzzleHttp\Psr7\Response;
 use Spryker\Client\ApplicationCatalog\ApplicationCatalogDependencyProvider;
