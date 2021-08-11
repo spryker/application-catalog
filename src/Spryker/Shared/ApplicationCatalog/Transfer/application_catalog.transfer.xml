@@ -60,6 +60,16 @@
         <property name="isConnected" type="bool"/>
     </transfer>
 
+    <transfer name="ApplicationConfigurationRequest" strict="true">
+        <property name="applicationUuid" type="string"/>
+        <property name="tenantDomain" type="string"/>
+        <property name="tenantUuid" type="string"/>
+    </transfer>
+
+    <transfer name="ApplicationConfigurationResponse" strict="true">
+        <property name="configUrl" type="string"/>
+    </transfer>
+
     <transfer name="ApplicationCriteria" strict="true">
         <property name="applicationUuid" type="string"/>
         <property name="searchTerm" type="string"/>

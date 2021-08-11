@@ -12,6 +12,8 @@ use Generated\Shared\Transfer\AdvertisementBannerCriteriaTransfer;
 use Generated\Shared\Transfer\ApplicationCategoryCollectionTransfer;
 use Generated\Shared\Transfer\ApplicationCategoryCriteriaTransfer;
 use Generated\Shared\Transfer\ApplicationCollectionTransfer;
+use Generated\Shared\Transfer\ApplicationConfigurationRequestTransfer;
+use Generated\Shared\Transfer\ApplicationConfigurationResponseTransfer;
 use Generated\Shared\Transfer\ApplicationConnectRequestTransfer;
 use Generated\Shared\Transfer\ApplicationConnectResponseTransfer;
 use Generated\Shared\Transfer\ApplicationCriteriaTransfer;
@@ -124,5 +126,22 @@ class ApplicationCatalogClient extends AbstractClient implements ApplicationCata
         return $this->getFactory()
             ->createApplicationCatalogRepository()
             ->connectApplication($applicationConnectRequestTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\ApplicationConfigurationRequestTransfer $applicationConfigRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\ApplicationConfigurationResponseTransfer
+     */
+    public function getApplicationConfiguration(
+        ApplicationConfigurationRequestTransfer $applicationConfigRequestTransfer
+    ): ApplicationConfigurationResponseTransfer {
+        return $this->getFactory()
+            ->createApplicationConfigRepository()
+            ->getApplicationConfiguration($applicationConfigRequestTransfer);
     }
 }

@@ -8,7 +8,9 @@
 namespace Spryker\Client\ApplicationCatalog;
 
 use Spryker\Client\ApplicationCatalog\DataSource\ApplicationCatalogRepositoryInterface;
+use Spryker\Client\ApplicationCatalog\DataSource\ApplicationConfigurationRepositoryInterface;
 use Spryker\Client\ApplicationCatalog\DataSource\HttpApplicationCatalogRepository;
+use Spryker\Client\ApplicationCatalog\DataSource\HttpApplicationConfigurationRepository;
 use Spryker\Client\ApplicationCatalog\Dependency\External\ApplicationCatalogToHttpClientAdapterInterface;
 use Spryker\Client\ApplicationCatalog\Dependency\Service\ApplicationCatalogToUtilEncodingServiceInterface;
 use Spryker\Client\Kernel\AbstractFactory;
@@ -26,6 +28,18 @@ class ApplicationCatalogFactory extends AbstractFactory
         return new HttpApplicationCatalogRepository(
             $this->getUtilEncodingService(),
             $this->getHttpClient(),
+            $this->getConfig()
+        );
+    }
+
+    /**
+     * @return \Spryker\Client\ApplicationCatalog\DataSource\ApplicationConfigurationRepositoryInterface
+     */
+    public function createApplicationConfigRepository(): ApplicationConfigurationRepositoryInterface
+    {
+        return new HttpApplicationConfigurationRepository(
+            $this->getHttpClient(),
+            $this->getUtilEncodingService(),
             $this->getConfig()
         );
     }
