@@ -31,6 +31,9 @@ use Spryker\Client\ApplicationCatalog\Http\Exception\ApplicationCatalogHttpReque
  */
 class ApplicationCatalogClientTest extends Test
 {
+    /**
+     * @var string
+     */
     protected const LOCAL_NAME = 'en_US';
 
     /**

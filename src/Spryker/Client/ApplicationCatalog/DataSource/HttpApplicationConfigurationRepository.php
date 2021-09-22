@@ -17,6 +17,9 @@ use Spryker\Service\UtilText\Model\Url\Url;
 
 class HttpApplicationConfigurationRepository implements ApplicationConfigurationRepositoryInterface
 {
+    /**
+     * @var string
+     */
     protected const HTTP_REQUEST_METHOD = 'GET';
 
     /**

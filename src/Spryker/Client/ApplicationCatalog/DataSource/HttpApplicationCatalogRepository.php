@@ -31,6 +31,9 @@ class HttpApplicationCatalogRepository implements ApplicationCatalogRepositoryIn
 {
     use LoggerTrait;
 
+    /**
+     * @var string
+     */
     protected const HTTP_REQUEST_METHOD = 'GET';
 
     /**

@@ -11,6 +11,9 @@ use Spryker\Client\Kernel\AbstractBundleConfig;
 
 class ApplicationCatalogConfig extends AbstractBundleConfig
 {
+    /**
+     * @var string
+     */
     protected const DATA_SOURCE_URL = 'http://registry.pbc.spryker.local/app-store/';
 
     /**
