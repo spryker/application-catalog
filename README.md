@@ -1,6 +1,6 @@
 # ApplicationCatalog Module
 [![Latest Stable Version](https://poser.pugx.org/spryker/application-catalog/v/stable.svg)](https://packagist.org/packages/spryker/application-catalog)
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.3-8892BF.svg)](https://php.net/)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.4-8892BF.svg)](https://php.net/)
 
 Allows you to get catalog of applications with search and filtration, also their categories and labels.
 

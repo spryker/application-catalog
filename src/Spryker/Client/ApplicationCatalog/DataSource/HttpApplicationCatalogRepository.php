@@ -187,7 +187,7 @@ class HttpApplicationCatalogRepository implements ApplicationCatalogRepositoryIn
     {
         try {
             $url = Url::generate($this->applicationCatalogConfig->getDataSourceUrl() . $endpoint, $params)->build();
-            $data = (string)$this->httpClient->request(static::HTTP_REQUEST_METHOD, $url)->getBody();
+            $data = $this->httpClient->request(static::HTTP_REQUEST_METHOD, $url)->getBody()->getContents();
         } catch (ApplicationCatalogHttpRequestException $applicationCatalogHttpRequestException) {
             $this->logHttpApplicationCatalogError($applicationCatalogHttpRequestException);
 

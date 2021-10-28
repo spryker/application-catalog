@@ -15,7 +15,8 @@ use Generated\Shared\Transfer\ApplicationCriteriaTransfer;
 use Generated\Shared\Transfer\ApplicationTransfer;
 use Generated\Shared\Transfer\LabelCriteriaTransfer;
 use Generated\Shared\Transfer\LocaleTransfer;
-use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Response as GuzzleHttpResponse;
+use Psr\Http\Message\StreamInterface;
 use Spryker\Client\ApplicationCatalog\ApplicationCatalogDependencyProvider;
 use Spryker\Client\ApplicationCatalog\Dependency\External\ApplicationCatalogToHttpClientAdapterInterface;
 use Spryker\Client\ApplicationCatalog\Http\Exception\ApplicationCatalogHttpRequestException;
@@ -69,9 +70,8 @@ class ApplicationCatalogClientTest extends Test
     public function testGetApplicationCollectionShouldReturnCollectionTransfer(): void
     {
         // Arrange
-        $response = $this->createMock(Response::class);
-        $response->method('getBody')->willReturn($this->getFixture('applications.json'));
-        $this->httpClient->method('request')->willReturn($response);
+        $responseMock = $this->getResponseMock($this->getFixture('applications.json'));
+        $this->httpClient->method('request')->willReturn($responseMock);
         $applicationCriteriaTransfer = (new ApplicationCriteriaTransfer())->setLocale($this->getLocaleTransfer());
 
         // Act
@@ -87,9 +87,8 @@ class ApplicationCatalogClientTest extends Test
     public function testFindApplicationShouldReturnTransfer(): void
     {
         // Arrange
-        $response = $this->createMock(Response::class);
-        $response->method('getBody')->willReturn($this->getFixture('application.json'));
-        $this->httpClient->method('request')->willReturn($response);
+        $responseMock = $this->getResponseMock($this->getFixture('application.json'));
+        $this->httpClient->method('request')->willReturn($responseMock);
         $applicationCriteriaTransfer = (new ApplicationCriteriaTransfer())
             ->setApplicationUuid('payment-provider-payone')
             ->setLocale($this->getLocaleTransfer());
@@ -107,9 +106,8 @@ class ApplicationCatalogClientTest extends Test
     public function testFindApplicationShouldReturnNull(): void
     {
         // Arrange
-        $response = $this->createMock(Response::class);
-        $response->method('getBody')->willReturn('');
-        $this->httpClient->method('request')->willReturn($response);
+        $responseMock = $this->getResponseMock('');
+        $this->httpClient->method('request')->willReturn($responseMock);
         $applicationCriteriaTransfer = (new ApplicationCriteriaTransfer())
             ->setApplicationUuid('test-unreal-app')
             ->setLocale($this->getLocaleTransfer());
@@ -127,9 +125,8 @@ class ApplicationCatalogClientTest extends Test
     public function testGetCategoryCollectionShouldReturnCollectionTransfer(): void
     {
         // Arrange
-        $response = $this->createMock(Response::class);
-        $response->method('getBody')->willReturn($this->getFixture('categories.json'));
-        $this->httpClient->method('request')->willReturn($response);
+        $responseMock = $this->getResponseMock($this->getFixture('categories.json'));
+        $this->httpClient->method('request')->willReturn($responseMock);
         $applicationCategoryTransfer = (new ApplicationCategoryCriteriaTransfer())->setLocale($this->getLocaleTransfer());
 
         // Act
@@ -147,9 +144,8 @@ class ApplicationCatalogClientTest extends Test
     public function testGetLabelCollectionShouldReturnCollectionTransfer(): void
     {
         // Arrange
-        $response = $this->createMock(Response::class);
-        $response->method('getBody')->willReturn($this->getFixture('labels.json'));
-        $this->httpClient->method('request')->willReturn($response);
+        $responseMock = $this->getResponseMock($this->getFixture('labels.json'));
+        $this->httpClient->method('request')->willReturn($responseMock);
         $labelCriteriaTransfer = (new LabelCriteriaTransfer())->setLocale($this->getLocaleTransfer());
 
         // Act
@@ -165,9 +161,8 @@ class ApplicationCatalogClientTest extends Test
     public function testGetAdvertisementBannerCollectionShouldReturnAdvertisementBannerCollectionTransfer(): void
     {
         // Arrange
-        $response = $this->createMock(Response::class);
-        $response->method('getBody')->willReturn($this->getFixture('advertisementBanners.json'));
-        $this->httpClient->method('request')->willReturn($response);
+        $responseMock = $this->getResponseMock($this->getFixture('advertisementBanners.json'));
+        $this->httpClient->method('request')->willReturn($responseMock);
         $advertisementBannerCriteriaTransfer = new AdvertisementBannerCriteriaTransfer();
 
         // Act
@@ -184,6 +179,8 @@ class ApplicationCatalogClientTest extends Test
     public function testGetAdvertisementBannerCollectionReturnsAnEmptyAdvertisementBannerCollectionWhenCriteriaNotMatchesAnyBanner(): void
     {
         // Arrange
+        $responseMock = $this->getResponseMock($this->getFixture('advertisementBannersEmpty.json'));
+        $this->httpClient->method('request')->willReturn($responseMock);
         $advertisementBannerCriteriaTransfer = new AdvertisementBannerCriteriaTransfer();
 
         // Act
@@ -219,9 +216,8 @@ class ApplicationCatalogClientTest extends Test
     public function testConnectApplicationShouldReturnApplicationConnectResponseTransferWithTrueConnectedStatus(): void
     {
         // Arrange
-        $response = $this->createMock(Response::class);
-        $response->method('getBody')->willReturn($this->getFixture('connect.json'));
-        $this->httpClient->method('request')->willReturn($response);
+        $responseMock = $this->getResponseMock($this->getFixture('connect.json'));
+        $this->httpClient->method('request')->willReturn($responseMock);
         $applicationConnectRequestTransfer = new ApplicationConnectRequestTransfer();
 
         // Act
@@ -239,6 +235,8 @@ class ApplicationCatalogClientTest extends Test
     public function testConnectApplicationShouldReturnApplicationConnectResponseTransferWithFalseConnectedStatus(): void
     {
         // Arrange
+        $responseMock = $this->getResponseMock($this->getFixture('connectUnsuccessful.json'));
+        $this->httpClient->method('request')->willReturn($responseMock);
         $applicationConnectRequestTransfer = new ApplicationConnectRequestTransfer();
 
         // Act
@@ -256,6 +254,24 @@ class ApplicationCatalogClientTest extends Test
     protected function getLocaleTransfer(): LocaleTransfer
     {
         return (new LocaleTransfer())->setLocaleName(static::LOCAL_NAME);
+    }
+
+    /**
+     * @param string $responseBody
+     *
+     * @return \GuzzleHttp\Psr7\Response|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected function getResponseMock(string $responseBody): GuzzleHttpResponse
+    {
+        $responseMock = $this->createMock(GuzzleHttpResponse::class);
+        $streamMock = $this->createMock(StreamInterface::class);
+
+        $streamMock->method('getContents')
+            ->willReturn($responseBody);
+        $responseMock->method('getBody')
+            ->willReturn($streamMock);
+
+        return $responseMock;
     }
 
     /**
